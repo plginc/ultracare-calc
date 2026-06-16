@@ -7,260 +7,550 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');body{font-family:'Inter',sans-serif;background-color:#F9FAFB;margin:0;}input[type=range]{-webkit-appearance:none;width:100%;background:transparent;}input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;height:20px;width:20px;border-radius:50%;background:#2563EB;cursor:pointer;margin-top:-8px;box-shadow:0 2px 6px rgba(0,0,0,0.15);transition:background 0.2s;}input[type=range]::-webkit-slider-thumb:hover{background:#1D4ED8;}input[type=range]::-webkit-slider-runnable-track{width:100%;height:4px;cursor:pointer;background:#E5E7EB;border-radius:2px;}input[type=range]:focus{outline:none;}::-webkit-scrollbar{width:0px;background:transparent;}.ai-content p{margin-bottom:0.75em;}.ai-content strong{color:#1e293b;font-weight:700;}.ai-content ul{list-style-type:disc;padding-left:1.5em;margin-bottom:1em;margin-top:0.5em;}.ai-content li{margin-bottom:0.25em;}</style>
 </head>
 <body>
 <div id="root"></div>
-<script type="text/babel">
-const { useState, useEffect, useRef } = React;
-const IconBase = ({ children, ...props }) => (
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>{children}</svg>
-);
-const Calculator = (props) => <IconBase {...props}><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></IconBase>;
-const Car = (props) => <IconBase {...props}><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/><path d="M14 14h2v-5.5"/></IconBase>;
-const Wrench = (props) => <IconBase {...props}><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></IconBase>;
-const DollarSign = (props) => <IconBase {...props}><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></IconBase>;
-const Share2 = (props) => <IconBase {...props}><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></IconBase>;
-const TrendingUp = (props) => <IconBase {...props}><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></IconBase>;
-const Users = (props) => <IconBase {...props}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></IconBase>;
-const PieChart = (props) => <IconBase {...props}><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></IconBase>;
-const FileText = (props) => <IconBase {...props}><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></IconBase>;
-const AlertTriangle = (props) => <IconBase {...props}><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></IconBase>;
-const CheckCircle = (props) => <IconBase {...props}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></IconBase>;
-const ArrowDownRight = (props) => <IconBase {...props}><path d="m7 7 10 10"/><path d="M17 7v10H7"/></IconBase>;
-const ArrowUpRight = (props) => <IconBase {...props}><path d="M7 17 17 7"/><path d="M7 7h10v10"/></IconBase>;
-const Mail = (props) => <IconBase {...props}><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></IconBase>;
-const X = (props) => <IconBase {...props}><path d="M18 6 6 18"/><path d="m6 6 12 12"/></IconBase>;
-const Copy = (props) => <IconBase {...props}><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></IconBase>;
-const Sparkles = (props) => <IconBase {...props}><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M9 3v4"/><path d="M3 5h4"/><path d="M3 9h4"/></IconBase>;
-const Volume2 = (props) => <IconBase {...props}><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></IconBase>;
-const Lock = (props) => <IconBase {...props}><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></IconBase>;
-const Loader2 = (props) => <IconBase {...props}><path d="M21 12a9 9 0 1 1-6.219-8.56" /></IconBase>;
-const Phone = (props) => <IconBase {...props}><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></IconBase>;
-const Calendar = (props) => <IconBase {...props}><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></IconBase>;
-const Toast = ({ message, onClose }) => (
-<div className="fixed bottom-4 right-4 bg-slate-800 text-white px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 animate-in slide-in-from-bottom-5 fade-in duration-300 z-[100]">
-<CheckCircle className="w-5 h-5 text-green-400" />
-<span className="font-medium">{message}</span>
-</div>
-);
-const LeadCaptureModal = ({ isOpen, onClose, onSubmit, isProcessing }) => {
-const [name, setName] = useState('');
-const [email, setEmail] = useState('');
-if (!isOpen) return null;
-const handleSubmit = (e) => {
-e.preventDefault();
-if (name && email) {
-onSubmit({ name, email });
-}
+<script>
+const {
+  useState,
+  useEffect,
+  useRef
+} = React;
+const IconBase = ({
+  children,
+  ...props
+}) => /*#__PURE__*/React.createElement("svg", {
+  xmlns: "http://www.w3.org/2000/svg",
+  width: "24",
+  height: "24",
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: "2",
+  strokeLinecap: "round",
+  strokeLinejoin: "round",
+  ...props
+}, children);
+const Calculator = props => /*#__PURE__*/React.createElement(IconBase, props, /*#__PURE__*/React.createElement("rect", {
+  width: "16",
+  height: "20",
+  x: "4",
+  y: "2",
+  rx: "2"
+}), /*#__PURE__*/React.createElement("line", {
+  x1: "8",
+  x2: "16",
+  y1: "6",
+  y2: "6"
+}), /*#__PURE__*/React.createElement("line", {
+  x1: "16",
+  x2: "16",
+  y1: "14",
+  y2: "18"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "M16 10h.01"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "M12 10h.01"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "M8 10h.01"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "M12 14h.01"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "M8 14h.01"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "M12 18h.01"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "M8 18h.01"
+}));
+const Car = props => /*#__PURE__*/React.createElement(IconBase, props, /*#__PURE__*/React.createElement("path", {
+  d: "M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"
+}), /*#__PURE__*/React.createElement("circle", {
+  cx: "7",
+  cy: "17",
+  r: "2"
+}), /*#__PURE__*/React.createElement("circle", {
+  cx: "17",
+  cy: "17",
+  r: "2"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "M14 14h2v-5.5"
+}));
+const Wrench = props => /*#__PURE__*/React.createElement(IconBase, props, /*#__PURE__*/React.createElement("path", {
+  d: "M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"
+}));
+const DollarSign = props => /*#__PURE__*/React.createElement(IconBase, props, /*#__PURE__*/React.createElement("line", {
+  x1: "12",
+  x2: "12",
+  y1: "2",
+  y2: "22"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
+}));
+const Share2 = props => /*#__PURE__*/React.createElement(IconBase, props, /*#__PURE__*/React.createElement("circle", {
+  cx: "18",
+  cy: "5",
+  r: "3"
+}), /*#__PURE__*/React.createElement("circle", {
+  cx: "6",
+  cy: "12",
+  r: "3"
+}), /*#__PURE__*/React.createElement("circle", {
+  cx: "18",
+  cy: "19",
+  r: "3"
+}), /*#__PURE__*/React.createElement("line", {
+  x1: "8.59",
+  x2: "15.42",
+  y1: "13.51",
+  y2: "17.49"
+}), /*#__PURE__*/React.createElement("line", {
+  x1: "15.41",
+  x2: "8.59",
+  y1: "6.51",
+  y2: "10.49"
+}));
+const TrendingUp = props => /*#__PURE__*/React.createElement(IconBase, props, /*#__PURE__*/React.createElement("polyline", {
+  points: "22 7 13.5 15.5 8.5 10.5 2 17"
+}), /*#__PURE__*/React.createElement("polyline", {
+  points: "16 7 22 7 22 13"
+}));
+const Users = props => /*#__PURE__*/React.createElement(IconBase, props, /*#__PURE__*/React.createElement("path", {
+  d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
+}), /*#__PURE__*/React.createElement("circle", {
+  cx: "9",
+  cy: "7",
+  r: "4"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "M22 21v-2a4 4 0 0 0-3-3.87"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "M16 3.13a4 4 0 0 1 0 7.75"
+}));
+const PieChart = props => /*#__PURE__*/React.createElement(IconBase, props, /*#__PURE__*/React.createElement("path", {
+  d: "M21.21 15.89A10 10 0 1 1 8 2.83"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "M22 12A10 10 0 0 0 12 2v10z"
+}));
+const FileText = props => /*#__PURE__*/React.createElement(IconBase, props, /*#__PURE__*/React.createElement("path", {
+  d: "M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "M14 2v4h4"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "M10 9H8"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "M16 13H8"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "M16 17H8"
+}));
+const AlertTriangle = props => /*#__PURE__*/React.createElement(IconBase, props, /*#__PURE__*/React.createElement("path", {
+  d: "m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"
+}), /*#__PURE__*/React.createElement("line", {
+  x1: "12",
+  x2: "12",
+  y1: "9",
+  y2: "13"
+}), /*#__PURE__*/React.createElement("line", {
+  x1: "12",
+  x2: "12.01",
+  y1: "17",
+  y2: "17"
+}));
+const CheckCircle = props => /*#__PURE__*/React.createElement(IconBase, props, /*#__PURE__*/React.createElement("path", {
+  d: "M22 11.08V12a10 10 0 1 1-5.93-9.14"
+}), /*#__PURE__*/React.createElement("polyline", {
+  points: "22 4 12 14.01 9 11.01"
+}));
+const ArrowDownRight = props => /*#__PURE__*/React.createElement(IconBase, props, /*#__PURE__*/React.createElement("path", {
+  d: "m7 7 10 10"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "M17 7v10H7"
+}));
+const ArrowUpRight = props => /*#__PURE__*/React.createElement(IconBase, props, /*#__PURE__*/React.createElement("path", {
+  d: "M7 17 17 7"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "M7 7h10v10"
+}));
+const Mail = props => /*#__PURE__*/React.createElement(IconBase, props, /*#__PURE__*/React.createElement("rect", {
+  width: "20",
+  height: "16",
+  x: "2",
+  y: "4",
+  rx: "2"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"
+}));
+const X = props => /*#__PURE__*/React.createElement(IconBase, props, /*#__PURE__*/React.createElement("path", {
+  d: "M18 6 6 18"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "m6 6 12 12"
+}));
+const Copy = props => /*#__PURE__*/React.createElement(IconBase, props, /*#__PURE__*/React.createElement("rect", {
+  width: "14",
+  height: "14",
+  x: "8",
+  y: "8",
+  rx: "2",
+  ry: "2"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+}));
+const Sparkles = props => /*#__PURE__*/React.createElement(IconBase, props, /*#__PURE__*/React.createElement("path", {
+  d: "m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "M5 3v4"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "M9 3v4"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "M3 5h4"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "M3 9h4"
+}));
+const Volume2 = props => /*#__PURE__*/React.createElement(IconBase, props, /*#__PURE__*/React.createElement("polygon", {
+  points: "11 5 6 9 2 9 2 15 6 15 11 19 11 5"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "M15.54 8.46a5 5 0 0 1 0 7.07"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "M19.07 4.93a10 10 0 0 1 0 14.14"
+}));
+const Lock = props => /*#__PURE__*/React.createElement(IconBase, props, /*#__PURE__*/React.createElement("rect", {
+  width: "18",
+  height: "11",
+  x: "3",
+  y: "11",
+  rx: "2",
+  ry: "2"
+}), /*#__PURE__*/React.createElement("path", {
+  d: "M7 11V7a5 5 0 0 1 10 0v4"
+}));
+const Loader2 = props => /*#__PURE__*/React.createElement(IconBase, props, /*#__PURE__*/React.createElement("path", {
+  d: "M21 12a9 9 0 1 1-6.219-8.56"
+}));
+const Phone = props => /*#__PURE__*/React.createElement(IconBase, props, /*#__PURE__*/React.createElement("path", {
+  d: "M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+}));
+const Calendar = props => /*#__PURE__*/React.createElement(IconBase, props, /*#__PURE__*/React.createElement("rect", {
+  width: "18",
+  height: "18",
+  x: "3",
+  y: "4",
+  rx: "2",
+  ry: "2"
+}), /*#__PURE__*/React.createElement("line", {
+  x1: "16",
+  x2: "16",
+  y1: "2",
+  y2: "6"
+}), /*#__PURE__*/React.createElement("line", {
+  x1: "8",
+  x2: "8",
+  y1: "2",
+  y2: "6"
+}), /*#__PURE__*/React.createElement("line", {
+  x1: "3",
+  x2: "21",
+  y1: "10",
+  y2: "10"
+}));
+const Toast = ({
+  message,
+  onClose
+}) => /*#__PURE__*/React.createElement("div", {
+  className: "fixed bottom-4 right-4 bg-slate-800 text-white px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 animate-in slide-in-from-bottom-5 fade-in duration-300 z-[100]"
+}, /*#__PURE__*/React.createElement(CheckCircle, {
+  className: "w-5 h-5 text-green-400"
+}), /*#__PURE__*/React.createElement("span", {
+  className: "font-medium"
+}, message));
+const LeadCaptureModal = ({
+  isOpen,
+  onClose,
+  onSubmit,
+  isProcessing
+}) => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  if (!isOpen) return null;
+  const handleSubmit = e => {
+    e.preventDefault();
+    if (name && email) {
+      onSubmit({
+        name,
+        email
+      });
+    }
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    className: "fixed inset-0 bg-black/60 flex items-center justify-center z-50 backdrop-blur-sm p-4"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 animate-in zoom-in-95 duration-200 relative overflow-hidden"
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: onClose,
+    className: "absolute top-4 right-4 text-slate-500 hover:text-slate-700 hover:bg-slate-100 p-2 rounded-full transition-colors z-20"
+  }, /*#__PURE__*/React.createElement(X, {
+    className: "w-6 h-6"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-600 to-indigo-600"
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "mb-6 text-center"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "bg-indigo-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4"
+  }, /*#__PURE__*/React.createElement(Lock, {
+    className: "w-6 h-6 text-indigo-600"
+  })), /*#__PURE__*/React.createElement("h3", {
+    className: "text-2xl font-bold text-slate-900 mb-2"
+  }, "Unlock Strategic Analysis"), /*#__PURE__*/React.createElement("p", {
+    className: "text-slate-600 text-sm"
+  }, "Enter your details to generate the full AI-powered executive summary and have this scenario emailed to you.")), /*#__PURE__*/React.createElement("form", {
+    onSubmit: handleSubmit,
+    className: "space-y-4"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    className: "block text-xs font-bold text-slate-500 uppercase mb-1"
+  }, "Full Name"), /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    required: true,
+    placeholder: "John Doe",
+    className: "w-full border border-slate-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-indigo-500 outline-none",
+    value: name,
+    onChange: e => setName(e.target.value)
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    className: "block text-xs font-bold text-slate-500 uppercase mb-1"
+  }, "Work Email"), /*#__PURE__*/React.createElement("input", {
+    type: "email",
+    required: true,
+    placeholder: "john@dealership.com",
+    className: "w-full border border-slate-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-indigo-500 outline-none",
+    value: email,
+    onChange: e => setEmail(e.target.value)
+  })), /*#__PURE__*/React.createElement("button", {
+    type: "submit",
+    disabled: isProcessing,
+    className: "w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-indigo-200 transition-all active:scale-98 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+  }, isProcessing ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    className: "animate-spin"
+  }, /*#__PURE__*/React.createElement(Loader2, {
+    className: "w-4 h-4"
+  })), " Generating Report...") : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Sparkles, {
+    className: "w-4 h-4"
+  }), " Generate Report")), /*#__PURE__*/React.createElement("p", {
+    className: "text-[10px] text-center text-slate-400 mt-4"
+  }, "By continuing, you agree to receive communications about UltraCare. Your data is secure."))));
 };
-return (
-<div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 backdrop-blur-sm p-4">
-<div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 animate-in zoom-in-95 duration-200 relative overflow-hidden">
-<button
-onClick={onClose}
-className="absolute top-4 right-4 text-slate-500 hover:text-slate-700 hover:bg-slate-100 p-2 rounded-full transition-colors z-20"
->
-<X className="w-6 h-6" />
-</button>
-<div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-600 to-indigo-600"></div>
-<div className="mb-6 text-center">
-<div className="bg-indigo-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-<Lock className="w-6 h-6 text-indigo-600" />
-</div>
-<h3 className="text-2xl font-bold text-slate-900 mb-2">Unlock Strategic Analysis</h3>
-<p className="text-slate-600 text-sm">
-Enter your details to generate the full AI-powered executive summary and have this scenario emailed to you.
-</p>
-</div>
-<form onSubmit={handleSubmit} className="space-y-4">
-<div>
-<label className="block text-xs font-bold text-slate-500 uppercase mb-1">Full Name</label>
-<input
-type="text" required placeholder="John Doe"
-className="w-full border border-slate-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-indigo-500 outline-none"
-value={name} onChange={(e) => setName(e.target.value)}
-/>
-</div>
-<div>
-<label className="block text-xs font-bold text-slate-500 uppercase mb-1">Work Email</label>
-<input
-type="email" required placeholder="john@dealership.com"
-className="w-full border border-slate-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-indigo-500 outline-none"
-value={email} onChange={(e) => setEmail(e.target.value)}
-/>
-</div>
-<button
-type="submit"
-disabled={isProcessing}
-className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-indigo-200 transition-all active:scale-98 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
->
-{isProcessing ? (
-<><div className="animate-spin"><Loader2 className="w-4 h-4" /></div> Generating Report...</>
-) : (
-<><Sparkles className="w-4 h-4" /> Generate Report</>
-)}
-</button>
-<p className="text-[10px] text-center text-slate-400 mt-4">
-By continuing, you agree to receive communications about UltraCare. Your data is secure.
-</p>
-</form>
-</div>
-</div>
-);
-};
-const EmailModal = ({ isOpen, onClose, url, onCopySuccess }) => {
-const [email, setEmail] = useState('');
-if (!isOpen) return null;
-const handleSend = () => {
-const subject = encodeURIComponent("UltraCare ROI Scenario");
-const body = encodeURIComponent(`Here is the UltraCare ROI scenario we built:\n\n${url}\n\nLet me know what you think!`);
-window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
-onClose();
-};
-const handleCopy = () => {
-const textArea = document.createElement("textarea");
-textArea.value = url;
-textArea.style.position = "fixed";
-document.body.appendChild(textArea);
-textArea.focus();
-textArea.select();
-try {
-const successful = document.execCommand('copy');
-if (successful) { if (onCopySuccess) onCopySuccess(); else alert("Link copied!"); } else { prompt("Copy this link manually:", url); }
-} catch (err) { console.error("Copy failed", err); prompt("Copy this link manually:", url); }
-document.body.removeChild(textArea);
-};
-return (
-<div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 backdrop-blur-sm p-4">
-<div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 animate-in zoom-in-95 duration-200">
-<div className="flex justify-between items-center mb-4">
-<h3 className="text-xl font-bold text-slate-800">Email Scenario</h3>
-<button onClick={onClose} className="p-1 hover:bg-slate-100 rounded-full transition-colors"><X className="w-5 h-5 text-slate-500" /></button>
-</div>
-<p className="text-slate-600 mb-4 text-sm">Enter an email address to send this profit scenario link directly to your inbox.</p>
-<div className="space-y-4">
-<div><label className="block text-xs font-bold text-slate-500 uppercase mb-1">Recipient Email</label><input type="email" placeholder="name@dealership.com" className="w-full border border-slate-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none" value={email} onChange={(e) => setEmail(e.target.value)}/></div>
-<button onClick={handleSend} disabled={!email} className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 transition-all"><Mail className="w-4 h-4" /> Send Email</button>
-<div className="relative flex py-2 items-center"><div className="flex-grow border-t border-slate-200"></div><span className="flex-shrink mx-4 text-slate-400 text-xs">OR</span><div className="flex-grow border-t border-slate-200"></div></div>
-<div className="bg-slate-50 p-3 rounded-lg flex items-center justify-between border border-slate-200"><div className="text-xs text-slate-500 truncate max-w-[200px] font-mono">{url}</div><button onClick={handleCopy} className="text-blue-600 text-xs font-bold hover:underline flex items-center gap-1"><Copy className="w-3 h-3" /> Copy Link</button></div>
-</div>
-</div>
-</div>
-);
+const EmailModal = ({
+  isOpen,
+  onClose,
+  url,
+  onCopySuccess
+}) => {
+  const [email, setEmail] = useState('');
+  if (!isOpen) return null;
+  const handleSend = () => {
+    const subject = encodeURIComponent("UltraCare ROI Scenario");
+    const body = encodeURIComponent(`Here is the UltraCare ROI scenario we built:\n\n${url}\n\nLet me know what you think!`);
+    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+    onClose();
+  };
+  const handleCopy = () => {
+    const textArea = document.createElement("textarea");
+    textArea.value = url;
+    textArea.style.position = "fixed";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+      const successful = document.execCommand('copy');
+      if (successful) {
+        if (onCopySuccess) onCopySuccess();else alert("Link copied!");
+      } else {
+        prompt("Copy this link manually:", url);
+      }
+    } catch (err) {
+      console.error("Copy failed", err);
+      prompt("Copy this link manually:", url);
+    }
+    document.body.removeChild(textArea);
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    className: "fixed inset-0 bg-black/50 flex items-center justify-center z-50 backdrop-blur-sm p-4"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 animate-in zoom-in-95 duration-200"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex justify-between items-center mb-4"
+  }, /*#__PURE__*/React.createElement("h3", {
+    className: "text-xl font-bold text-slate-800"
+  }, "Email Scenario"), /*#__PURE__*/React.createElement("button", {
+    onClick: onClose,
+    className: "p-1 hover:bg-slate-100 rounded-full transition-colors"
+  }, /*#__PURE__*/React.createElement(X, {
+    className: "w-5 h-5 text-slate-500"
+  }))), /*#__PURE__*/React.createElement("p", {
+    className: "text-slate-600 mb-4 text-sm"
+  }, "Enter an email address to send this profit scenario link directly to your inbox."), /*#__PURE__*/React.createElement("div", {
+    className: "space-y-4"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    className: "block text-xs font-bold text-slate-500 uppercase mb-1"
+  }, "Recipient Email"), /*#__PURE__*/React.createElement("input", {
+    type: "email",
+    placeholder: "name@dealership.com",
+    className: "w-full border border-slate-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none",
+    value: email,
+    onChange: e => setEmail(e.target.value)
+  })), /*#__PURE__*/React.createElement("button", {
+    onClick: handleSend,
+    disabled: !email,
+    className: "w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 transition-all"
+  }, /*#__PURE__*/React.createElement(Mail, {
+    className: "w-4 h-4"
+  }), " Send Email"), /*#__PURE__*/React.createElement("div", {
+    className: "relative flex py-2 items-center"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex-grow border-t border-slate-200"
+  }), /*#__PURE__*/React.createElement("span", {
+    className: "flex-shrink mx-4 text-slate-400 text-xs"
+  }, "OR"), /*#__PURE__*/React.createElement("div", {
+    className: "flex-grow border-t border-slate-200"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "bg-slate-50 p-3 rounded-lg flex items-center justify-between border border-slate-200"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "text-xs text-slate-500 truncate max-w-[200px] font-mono"
+  }, url), /*#__PURE__*/React.createElement("button", {
+    onClick: handleCopy,
+    className: "text-blue-600 text-xs font-bold hover:underline flex items-center gap-1"
+  }, /*#__PURE__*/React.createElement(Copy, {
+    className: "w-3 h-3"
+  }), " Copy Link")))));
 };
 function App() {
-const [inputs, setInputs] = useState({
-monthlySales: 150,
-salesPenetration: 20,
-monthlyServiceROs: 1200,
-servicePenetration: 10,
-subPrice: 199,
-upsellPerVisit: 178,
-visitsPerYear: 2.3,
-renewalRate: 70,
-utilizationRate: 65,
-grossMargin: 55
-});
-const [metrics, setMetrics] = useState({
-y1Profit: 0,
-y2Profit: 0,
-y3Profit: 0,
-y1Rev: 0,
-y2Rev: 0,
-y3Rev: 0,
-totalSubsY3: 0,
-y1Subs: 0
-});
-const [showReport, setShowReport] = useState(false);
-const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
-const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
-const [isProcessingReport, setIsProcessingReport] = useState(false);
-const [toastMessage, setToastMessage] = useState(null);
-const [userData, setUserData] = useState(null);
-const [demoRequested, setDemoRequested] = useState(false);
-const reportRef = useRef(null);
-const [geminiAnalysis, setGeminiAnalysis] = useState(null);
-const [isGeminiLoading, setIsGeminiLoading] = useState(false);
-const AVG_VEHICLE_GROSS_PROFIT = 2200;
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwzHIKVw1HKvMQ5F1oV8EeP11R50t1RCIOuZVrL_uhm9r3NSolu1RqwWjyVgRd33Ejh/exec";
-useEffect(() => {
-const params = new URLSearchParams(window.location.search);
-if ([...params].length > 0) {
-const newInputs = { ...inputs };
-let hasChanges = false;
-for (const [key, value] of params) {
-if (newInputs.hasOwnProperty(key)) { newInputs[key] = parseFloat(value); hasChanges = true; }
-}
-if (hasChanges) setInputs(newInputs);
-}
-}, []);
-useEffect(() => {
-const monthlyNewSalesSubs = inputs.monthlySales * (inputs.salesPenetration / 100);
-const monthlyNewServiceSubs = inputs.monthlyServiceROs * (inputs.servicePenetration / 100);
-const annualNewSubs = (monthlyNewSalesSubs + monthlyNewServiceSubs) * 12;
-const y1Active = annualNewSubs;
-const y2Active = annualNewSubs + (y1Active * (inputs.renewalRate / 100));
-const y3Active = annualNewSubs + (y2Active * (inputs.renewalRate / 100));
-const subRevenuePerUser = inputs.subPrice;
-const upsellRevenuePerUser = inputs.visitsPerYear * inputs.upsellPerVisit;
-const totalRevPerUser = subRevenuePerUser + upsellRevenuePerUser;
-const forfeitureProfit = subRevenuePerUser * (1 - (inputs.utilizationRate / 100));
-const utilizedSubRevenue = subRevenuePerUser * (inputs.utilizationRate / 100);
-const utilizedSubProfit = utilizedSubRevenue * (inputs.grossMargin / 100);
-const upsellProfit = upsellRevenuePerUser * (inputs.grossMargin / 100);
-const totalProfitPerUser = forfeitureProfit + utilizedSubProfit + upsellProfit;
-setMetrics({
-y1Profit: y1Active * totalProfitPerUser,
-y2Profit: y2Active * totalProfitPerUser,
-y3Profit: y3Active * totalProfitPerUser,
-y1Rev: y1Active * totalRevPerUser,
-y2Rev: y2Active * totalRevPerUser,
-y3Rev: y3Active * totalRevPerUser,
-totalSubsY3: y3Active,
-y1Subs: annualNewSubs
-});
-}, [inputs]);
-const handleChange = (e) => {
-const { name, value } = e.target;
-setInputs(prev => ({ ...prev, [name]: parseFloat(value) }));
-setShowReport(false);
-setGeminiAnalysis(null);
-setDemoRequested(false);
-};
-const getShareUrl = () => {
-const params = new URLSearchParams(inputs).toString();
-const baseUrl = window.location.href.split('?')[0];
-return `${baseUrl}?${params}`;
-};
-const handleGenerateReportClick = () => {
-setIsLeadModalOpen(true);
-};
-const handleEmailClick = () => setIsEmailModalOpen(true);
-const callGeminiProxy = async (promptText) => {
-if (GOOGLE_SCRIPT_URL) {
-const payload = { action: "analyze", prompt: promptText };
-try {
-const response = await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(payload) });
-const json = await response.json();
-return json.text || "Analysis unavailable.";
-} catch(e) {
-console.error("AI Error", e);
-return "Analysis currently unavailable.";
-}
-}
-return "Server connection required for AI.";
-};
-const getAIAnalysisText = async () => {
-const monthlyProfitY1 = metrics.y1Profit / 12;
-const costOfWaiting = monthlyProfitY1 * 3;
-const futureSalesProfit = (metrics.totalSubsY3 * 0.74) * AVG_VEHICLE_GROSS_PROFIT;
-const percentGrowth = ((metrics.y3Profit - metrics.y1Profit) / metrics.y1Profit * 100).toFixed(0);
-const totalServiceVisits = Math.round(metrics.totalSubsY3 * inputs.visitsPerYear);
-const upsellProfitPotential = totalServiceVisits * inputs.upsellPerVisit * (inputs.grossMargin / 100);
-const prompt = `
+  const [inputs, setInputs] = useState({
+    monthlySales: 150,
+    salesPenetration: 20,
+    monthlyServiceROs: 1200,
+    servicePenetration: 10,
+    subPrice: 199,
+    upsellPerVisit: 178,
+    visitsPerYear: 2.3,
+    renewalRate: 70,
+    utilizationRate: 65,
+    grossMargin: 55
+  });
+  const [metrics, setMetrics] = useState({
+    y1Profit: 0,
+    y2Profit: 0,
+    y3Profit: 0,
+    y1Rev: 0,
+    y2Rev: 0,
+    y3Rev: 0,
+    totalSubsY3: 0,
+    y1Subs: 0
+  });
+  const [showReport, setShowReport] = useState(false);
+  const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
+  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
+  const [isProcessingReport, setIsProcessingReport] = useState(false);
+  const [toastMessage, setToastMessage] = useState(null);
+  const [userData, setUserData] = useState(null);
+  const [demoRequested, setDemoRequested] = useState(false);
+  const reportRef = useRef(null);
+  const [geminiAnalysis, setGeminiAnalysis] = useState(null);
+  const [isGeminiLoading, setIsGeminiLoading] = useState(false);
+  const AVG_VEHICLE_GROSS_PROFIT = 2200;
+  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwzHIKVw1HKvMQ5F1oV8EeP11R50t1RCIOuZVrL_uhm9r3NSolu1RqwWjyVgRd33Ejh/exec";
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if ([...params].length > 0) {
+      const newInputs = {
+        ...inputs
+      };
+      let hasChanges = false;
+      for (const [key, value] of params) {
+        if (newInputs.hasOwnProperty(key)) {
+          newInputs[key] = parseFloat(value);
+          hasChanges = true;
+        }
+      }
+      if (hasChanges) setInputs(newInputs);
+    }
+  }, []);
+  useEffect(() => {
+    const monthlyNewSalesSubs = inputs.monthlySales * (inputs.salesPenetration / 100);
+    const monthlyNewServiceSubs = inputs.monthlyServiceROs * (inputs.servicePenetration / 100);
+    const annualNewSubs = (monthlyNewSalesSubs + monthlyNewServiceSubs) * 12;
+    const y1Active = annualNewSubs;
+    const y2Active = annualNewSubs + y1Active * (inputs.renewalRate / 100);
+    const y3Active = annualNewSubs + y2Active * (inputs.renewalRate / 100);
+    const subRevenuePerUser = inputs.subPrice;
+    const upsellRevenuePerUser = inputs.visitsPerYear * inputs.upsellPerVisit;
+    const totalRevPerUser = subRevenuePerUser + upsellRevenuePerUser;
+    const forfeitureProfit = subRevenuePerUser * (1 - inputs.utilizationRate / 100);
+    const utilizedSubRevenue = subRevenuePerUser * (inputs.utilizationRate / 100);
+    const utilizedSubProfit = utilizedSubRevenue * (inputs.grossMargin / 100);
+    const upsellProfit = upsellRevenuePerUser * (inputs.grossMargin / 100);
+    const totalProfitPerUser = forfeitureProfit + utilizedSubProfit + upsellProfit;
+    setMetrics({
+      y1Profit: y1Active * totalProfitPerUser,
+      y2Profit: y2Active * totalProfitPerUser,
+      y3Profit: y3Active * totalProfitPerUser,
+      y1Rev: y1Active * totalRevPerUser,
+      y2Rev: y2Active * totalRevPerUser,
+      y3Rev: y3Active * totalRevPerUser,
+      totalSubsY3: y3Active,
+      y1Subs: annualNewSubs
+    });
+  }, [inputs]);
+  const handleChange = e => {
+    const {
+      name,
+      value
+    } = e.target;
+    setInputs(prev => ({
+      ...prev,
+      [name]: parseFloat(value)
+    }));
+    setShowReport(false);
+    setGeminiAnalysis(null);
+    setDemoRequested(false);
+  };
+  const getShareUrl = () => {
+    const params = new URLSearchParams(inputs).toString();
+    const baseUrl = window.location.href.split('?')[0];
+    return `${baseUrl}?${params}`;
+  };
+  const handleGenerateReportClick = () => {
+    setIsLeadModalOpen(true);
+  };
+  const handleEmailClick = () => setIsEmailModalOpen(true);
+  const callGeminiProxy = async promptText => {
+    if (GOOGLE_SCRIPT_URL) {
+      const payload = {
+        action: "analyze",
+        prompt: promptText
+      };
+      try {
+        const response = await fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'text/plain'
+          },
+          body: JSON.stringify(payload)
+        });
+        const json = await response.json();
+        return json.text || "Analysis unavailable.";
+      } catch (e) {
+        console.error("AI Error", e);
+        return "Analysis currently unavailable.";
+      }
+    }
+    return "Server connection required for AI.";
+  };
+  const getAIAnalysisText = async () => {
+    const monthlyProfitY1 = metrics.y1Profit / 12;
+    const costOfWaiting = monthlyProfitY1 * 3;
+    const futureSalesProfit = metrics.totalSubsY3 * 0.74 * AVG_VEHICLE_GROSS_PROFIT;
+    const percentGrowth = ((metrics.y3Profit - metrics.y1Profit) / metrics.y1Profit * 100).toFixed(0);
+    const totalServiceVisits = Math.round(metrics.totalSubsY3 * inputs.visitsPerYear);
+    const upsellProfitPotential = totalServiceVisits * inputs.upsellPerVisit * (inputs.grossMargin / 100);
+    const prompt = `
 Generate an Executive Summary for the UltraCare Subscription Maintenance ROI Report.
 ROLE & PERSONA: Senior automotive fixed ops consultant. Tone: Authoritative but Consultative. No "guarantees".
 DATA:
@@ -268,309 +558,642 @@ DATA:
 - Active Subs Y3: ${formatNumber(metrics.totalSubsY3)}
 - Projected Service Visits Y3: ${formatNumber(totalServiceVisits)}
 - Upsell Profit Potential: ${formatCurrency(upsellProfitPotential)} (at $${inputs.upsellPerVisit} upsell, ${inputs.grossMargin}% margin)
-- Forfeiture: ${formatCurrency((inputs.subPrice * (1 - inputs.utilizationRate/100)) * metrics.totalSubsY3)}
+- Forfeiture: ${formatCurrency(inputs.subPrice * (1 - inputs.utilizationRate / 100) * metrics.totalSubsY3)}
 - Cost of Inaction: ${formatCurrency(costOfWaiting)}
 STRUCTURE (3 Paragraphs):
 1. Financial Outlook: "Financial Outlook: ". Discuss projected profit growth.
 2. Operational Impact: "Operational Impact: ". Discuss the ${formatNumber(totalServiceVisits)} annual service visits. Mention that based on user input of $${inputs.upsellPerVisit} avg upsell and ${inputs.grossMargin}% margin, this represents approx ${formatCurrency(upsellProfitPotential)} in potential upsell profit. Emphasize service lane stability.
 3. Strategic Value: "Strategic Value: ". Connect to dealership value. Mention Forfeiture as secondary benefit.
 Formatting: Double line breaks. No intro headers.`;
-const aiResult = await callGeminiProxy(prompt);
-const introText = `The retention landscape has shifted significantly. Recent data from Cox Automotive (2025) shows that only 54% of owners with vehicles two years old or newer are returning to the selling dealer for service-down from 72% just a couple years ago. That steep 25% drop represents real revenue walking out the door: lost oil changes today, but more importantly, lost major repairs and lost trade cycles tomorrow.
+    const aiResult = await callGeminiProxy(prompt);
+    const introText = `The retention landscape has shifted significantly. Recent data from Cox Automotive (2025) shows that only 54% of owners with vehicles two years old or newer are returning to the selling dealer for service-down from 72% just a couple years ago. That steep 25% drop represents real revenue walking out the door: lost oil changes today, but more importantly, lost major repairs and lost trade cycles tomorrow.
 The key insight here is timing. If a customer doesn't establish a service relationship during their first few visits, they rarely come back. The aftermarket captures them, and the dealership loses both the immediate service revenue and the long-term sales opportunity.
 UltraCare addresses this vulnerability by extending your retention reach beyond the showroom floor. Whether finalized in the finance office or presented by a service advisor, the program preemptively locks in the customer relationship before competitors can sway their decision. This approach transforms single transactions into a predictable, recurring relationship, ensuring that revenue stays within your dealership regardless of where the customer starts.`;
-const caseStudyText = `\n\nCase Study: Lockhart Cadillac's results show what's possible when a dealership commits to this strategy. Since launching their subscription maintenance program in 2021, they've seen remarkable growth:
+    const caseStudyText = `\n\nCase Study: Lockhart Cadillac's results show what's possible when a dealership commits to this strategy. Since launching their subscription maintenance program in 2021, they've seen remarkable growth:
 <ul style="list-style-type: disc; margin-left: 20px; margin-top: 10px; margin-bottom: 10px;">
 <li style="margin-bottom: 5px;"><strong>Customer Pay Repair Orders:</strong> Up 83% (from 7,800 to 14,300 in 2025)</li>
 <li style="margin-bottom: 5px;"><strong>Customer Pay Revenue:</strong> Up 110% (from $1.47M to $3.1M over the same period)</li>
 </ul>\n\nWhat makes this sustainable? Their recent monthly performance tells the story-145 new subscribers alongside 369 automatic renewals, generating $238,796 in revenue. That 2.5:1 ratio of renewals to new subscribers means their growth compounds over time rather than requiring constant new customer acquisition. The automatic renewal engine keeps revenue flowing with minimal ongoing effort.`;
-let combinedReport = introText + "\n\n" + aiResult;
-if (combinedReport.includes("Strategic Value:")) {
-combinedReport = combinedReport.replace("Strategic Value:", caseStudyText + "\n\nStrategic Value:");
-} else {
-combinedReport = combinedReport + "\n\n" + caseStudyText;
-}
-return combinedReport;
-};
-const handleLeadSubmit = async (data) => {
-setUserData(data);
-setIsProcessingReport(true);
-let aiText = "";
-try {
-aiText = await getAIAnalysisText();
-const cleanResult = aiText.replace(/\\(?=\$)/g, "");
-setGeminiAnalysis(cleanResult);
-aiText = cleanResult;
-} catch (err) { console.error("AI Gen failed", err); aiText = "Analysis pending..."; }
-setIsProcessingReport(false);
-setIsLeadModalOpen(false);
-setShowReport(true);
-setTimeout(() => reportRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
-if (GOOGLE_SCRIPT_URL) {
-const monthlyProfitY1 = metrics.y1Profit / 12;
-const costOfWaiting = monthlyProfitY1 * 3;
-const futureSalesProfit = (metrics.totalSubsY3 * 0.74) * AVG_VEHICLE_GROSS_PROFIT;
-const payload = { ...data, inputs: inputs, metrics: metrics, shareUrl: getShareUrl(), aiSummary: aiText, derived: { costOfWaiting: costOfWaiting, futureSalesProfit: futureSalesProfit, forfeitureIncome: (inputs.subPrice * (1 - inputs.utilizationRate/100)) * metrics.totalSubsY3, serviceProfit: ((inputs.subPrice * (inputs.utilizationRate/100)) * (inputs.grossMargin/100)) * metrics.totalSubsY3, upsellProfit: (inputs.visitsPerYear * inputs.upsellPerVisit * (inputs.grossMargin/100)) * metrics.totalSubsY3 }, timestamp: new Date().toISOString() };
-fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(payload) }).catch(err => console.error("Error sending data:", err));
-}
-};
-const handleRequestDemo = () => {
-if (!userData) return;
-setDemoRequested(true);
-if (GOOGLE_SCRIPT_URL) {
-const payload = { ...userData, action: "request_demo", timestamp: new Date().toISOString() };
-fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(payload) }).catch(err => console.error("Error sending demo request:", err));
-}
-};
-const showToast = (msg) => { setToastMessage(msg); setTimeout(() => setToastMessage(null), 3000); };
-const formatCurrency = (val) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(val);
-const formatNumber = (val) => new Intl.NumberFormat('en-US').format(Math.round(val));
-const monthlyProfitY1 = metrics.y1Profit / 12;
-const costOfWaiting = monthlyProfitY1 * 3;
-const futureSalesProfit = (metrics.totalSubsY3 * 0.74) * AVG_VEHICLE_GROSS_PROFIT;
-const handlePlayAudio = () => {
-if (!geminiAnalysis) return;
-const textToRead = geminiAnalysis.replace(/<[^>]*>?/gm, '');
-const utterance = new SpeechSynthesisUtterance(textToRead);
-window.speechSynthesis.speak(utterance);
-};
-const ChartBar = ({ label, value, maxValue, colorClass }) => {
-const percentage = Math.max(5, (value / maxValue) * 100);
-return (
-<div className="flex flex-col items-center justify-end h-full w-1/3 group cursor-default relative">
-<div className="absolute bottom-full mb-2 text-center opacity-0 group-hover:opacity-100 transition-opacity bg-slate-800 text-white text-xs py-1 px-2 rounded whitespace-nowrap z-10">Gross Profit: {formatCurrency(value)}</div>
-<div className={`w-full max-w-[60px] rounded-t-lg transition-all duration-500 ease-out relative ${colorClass}`} style={{ height: `${percentage}%` }}><div className="absolute top-0 left-0 w-full h-1 bg-white opacity-20 rounded-t-lg"></div></div>
-<p className="mt-3 font-bold text-slate-700 text-sm sm:text-base">{label}</p>
-<p className="text-xs text-slate-500 font-medium">{formatCurrency(value)}</p>
-</div>
-);
-};
-const maxProfit = metrics.y3Profit * 1.1;
-return (
-<div className="min-h-screen bg-slate-50 p-4 sm:p-6 font-sans text-slate-800">
-{toastMessage && <Toast message={toastMessage} onClose={() => setToastMessage(null)} />}
-<LeadCaptureModal isOpen={isLeadModalOpen} onClose={() => setIsLeadModalOpen(false)} onSubmit={handleLeadSubmit} isProcessing={isProcessingReport} />
-<EmailModal isOpen={isEmailModalOpen} onClose={() => setIsEmailModalOpen(false)} url={getShareUrl()} onCopySuccess={() => showToast("Link copied to clipboard!")} />
-<div className="max-w-7xl mx-auto">
-<header className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
-<div className="flex items-center gap-3">
-<div className="bg-blue-600 p-2.5 rounded-xl shadow-lg shadow-blue-600/20"><Calculator className="w-6 h-6 text-white" /></div>
-<div><h1 className="text-2xl font-bold text-slate-900">UltraCare Subscription Maintenance Profit Calculator</h1><p className="text-sm text-slate-500">Projected Dealership ROI & Profitability</p></div>
-</div>
-<button onClick={handleEmailClick} className="flex items-center gap-2 px-5 py-2.5 bg-white border border-blue-200 text-blue-700 shadow-sm shadow-blue-100 hover:shadow-blue-200 hover:border-blue-300 font-semibold rounded-lg transition-all active:scale-95 ring-1 ring-blue-100 hover:ring-blue-300"><Mail className="w-4 h-4" /> Email Scenario</button>
-</header>
-<div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
-<div className="lg:col-span-4 space-y-5">
-<div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
-<div className="flex items-center gap-2 mb-5 pb-3 border-b border-slate-50"><Car className="w-5 h-5 text-blue-500" /><h2 className="font-semibold text-slate-800">Dealership Volume Inputs</h2></div>
-<div className="space-y-5">
-<div><div className="flex justify-between mb-2"><label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Monthly New & Used Car Sales</label><span className="text-sm font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">{inputs.monthlySales}</span></div><input type="range" name="monthlySales" min="0" max="1000" step="10" value={inputs.monthlySales} onChange={handleChange} className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600" /></div>
-<div><div className="flex justify-between mb-2"><label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Sales Dept Penetration</label><span className="text-sm font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">{inputs.salesPenetration}%</span></div><input type="range" name="salesPenetration" min="0" max="100" step="1" value={inputs.salesPenetration} onChange={handleChange} className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600" /></div>
-<div className="pt-4 border-t border-slate-50">
-<div className="flex justify-between mb-2"><label className="text-xs font-bold text-slate-400 tracking-wider">MONTHLY ROs</label><span className="text-sm font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">{inputs.monthlyServiceROs}</span></div><input type="range" name="monthlyServiceROs" min="0" max="5000" step="50" value={inputs.monthlyServiceROs} onChange={handleChange} className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600" />
-</div>
-<div><div className="flex justify-between mb-2"><label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Service Dept Penetration</label><span className="text-sm font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">{inputs.servicePenetration}%</span></div><input type="range" name="servicePenetration" min="0" max="50" step="1" value={inputs.servicePenetration} onChange={handleChange} className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600" /></div>
-</div>
-</div>
-<div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
-<div className="flex items-center gap-2 mb-5 pb-3 border-b border-slate-50"><DollarSign className="w-5 h-5 text-emerald-500" /><h2 className="font-semibold text-slate-800">Program Economics</h2></div>
-<div className="grid grid-cols-2 gap-4 mb-5">
-<div><label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 block">Subscription Price</label><div className="relative"><span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">$</span><input type="number" name="subPrice" value={inputs.subPrice} onChange={handleChange} className="w-full pl-6 pr-2 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none font-semibold text-slate-700 text-sm" /></div></div>
-<div><label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 block">Average RO Upsell</label><div className="relative"><span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">$</span><input type="number" name="upsellPerVisit" value={inputs.upsellPerVisit} onChange={handleChange} className="w-full pl-6 pr-2 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none font-semibold text-slate-700 text-sm" /></div></div>
-</div>
-<div className="space-y-5">
-<div><div className="flex justify-between mb-2"><label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Renewal Rate</label><span className="text-sm font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">{inputs.renewalRate}%</span></div><input type="range" name="renewalRate" min="0" max="100" step="1" value={inputs.renewalRate} onChange={handleChange} className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-emerald-500" /></div>
-<div><div className="flex justify-between mb-2"><label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Utilization Rate</label><span className="text-sm font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">{inputs.utilizationRate}%</span></div><input type="range" name="utilizationRate" min="0" max="100" step="1" value={inputs.utilizationRate} onChange={handleChange} className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-emerald-500" /><p className="text-[10px] text-slate-400 mt-1">Lower utilization increases forfeiture income.</p></div>
-<div><div className="flex justify-between mb-2"><label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Blended Gross Margin</label><span className="text-sm font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">{inputs.grossMargin}%</span></div><input type="range" name="grossMargin" min="0" max="100" step="1" value={inputs.grossMargin} onChange={handleChange} className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-emerald-500" /><p className="text-[10px] text-slate-400 mt-1">Used to calculate profit on services.</p></div>
-</div>
-</div>
-</div>
-<div className="lg:col-span-8 flex flex-col gap-6">
-<div className="bg-slate-900 rounded-2xl p-6 sm:p-8 text-white relative overflow-hidden shadow-xl shadow-slate-200">
-<div className="absolute top-0 right-0 w-64 h-64 bg-blue-500 rounded-full filter blur-3xl opacity-10 -mr-16 -mt-16 pointer-events-none"></div>
-<div className="absolute bottom-0 left-0 w-40 h-40 bg-emerald-500 rounded-full filter blur-3xl opacity-10 -ml-10 -mb-10 pointer-events-none"></div>
-<div className="relative z-10">
-<div className="flex items-center gap-2 text-slate-300 mb-2"><TrendingUp className="w-5 h-5" /><span className="font-medium tracking-wide text-sm uppercase">Projected Year 3 Gross Profit</span></div>
-<div className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-2" style={{letterSpacing: '0.05em'}}>{formatCurrency(metrics.y3Profit)}</div>
-<div className="text-slate-400 font-medium text-sm sm:text-base">Total Revenue: <span className="text-white font-bold">{formatCurrency(metrics.y3Rev)}</span></div>
-</div>
-</div>
-<div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-100 flex-grow flex flex-col min-h-[320px]">
-<div className="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-<div><h3 className="text-lg font-bold text-slate-800">Dealership Profit Trajectory</h3><p className="text-slate-500 text-sm">Gross Profit growth over 3 years</p></div>
-<div className="bg-blue-50 px-4 py-2 rounded-xl border border-blue-100 text-center w-full sm:w-auto"><span className="text-xs font-bold text-blue-600 uppercase tracking-wider">Active Subscribers Y3</span><div className="text-xl sm:text-2xl font-black text-blue-900">{formatNumber(metrics.totalSubsY3)}</div></div>
-</div>
-<div className="flex-grow flex items-end justify-center gap-4 sm:gap-12 pb-4 border-b border-slate-100 h-64">
-<ChartBar label="Year 1" value={metrics.y1Profit} maxValue={maxProfit} colorClass="bg-blue-300" />
-<ChartBar label="Year 2" value={metrics.y2Profit} maxValue={maxProfit} colorClass="bg-blue-500" />
-<ChartBar label="Year 3" value={metrics.y3Profit} maxValue={maxProfit} colorClass="bg-blue-700" />
-</div>
-</div>
-<div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-<div className="bg-white rounded-xl p-4 border border-slate-100 shadow-sm">
-<div className="flex items-center gap-2 mb-2 text-blue-600 font-semibold text-xs uppercase tracking-wide"><Wrench className="w-4 h-4" /> Service Profit</div>
-<div className="text-xl font-bold text-slate-800 mb-1">{formatCurrency( ((inputs.subPrice * (inputs.utilizationRate/100)) * (inputs.grossMargin/100)) * metrics.totalSubsY3 )}</div>
-<p className="text-[10px] text-slate-400 leading-tight">Profit from utilized subscription services (Year 3).</p>
-</div>
-<div className="bg-white rounded-xl p-4 border border-slate-100 shadow-sm">
-<div className="flex items-center gap-2 mb-2 text-orange-500 font-semibold text-xs uppercase tracking-wide"><TrendingUp className="w-4 h-4" /> Upsell Profit</div>
-<div className="text-xl font-bold text-slate-800 mb-1">{formatCurrency( (inputs.visitsPerYear * inputs.upsellPerVisit * (inputs.grossMargin/100)) * metrics.totalSubsY3 )}</div>
-<p className="text-[10px] text-slate-400 leading-tight">Profit from additional RO upsells generated (Year 3).</p>
-</div>
-<div className="bg-white rounded-xl p-4 border border-slate-100 shadow-sm">
-<div className="flex items-center gap-2 mb-2 text-emerald-600 font-semibold text-xs uppercase tracking-wide"><PieChart className="w-4 h-4" /> Forfeiture Income</div>
-<div className="text-xl font-bold text-slate-800 mb-1">{formatCurrency( (inputs.subPrice * (1 - inputs.utilizationRate/100)) * metrics.totalSubsY3 )}</div>
-<p className="text-[10px] text-slate-400 leading-tight">Pure profit from unredeemed subscription value (Year 3).</p>
-</div>
-</div>
-<div className="pt-6">
-<button onClick={handleGenerateReportClick} className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-4 rounded-xl font-bold shadow-md hover:shadow-xl transition-all active:scale-98 group">
-<FileText className="w-5 h-5" /> Generate Strategic Analysis Report
-</button>
-</div>
-{showReport && (
-<div ref={reportRef} className="mt-8 bg-white rounded-2xl shadow-xl border border-indigo-100 overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500">
-<div className="bg-indigo-900 px-6 py-6 text-white border-b border-indigo-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-<div className="flex items-center gap-3"><div className="p-2 bg-indigo-800 rounded-lg shadow-inner"><FileText className="w-6 h-6 text-indigo-200" /></div><div><h3 className="text-xl font-bold text-white">Dealership Executive Summary</h3><p className="text-xs text-indigo-300 uppercase tracking-wider">Confidential Dealership Assessment</p></div></div>
-<div className="text-right hidden sm:block"><div className="text-xs text-indigo-300">Generated</div><div className="font-bold">{new Date().toLocaleDateString()}</div></div>
-</div>
-<div className="p-6 space-y-8">
-<div className="bg-indigo-50 rounded-xl p-6 border border-indigo-100">
-<div className="flex justify-between items-start mb-3">
-<div className="flex items-center gap-2">
-<Sparkles className="w-5 h-5 text-indigo-600" />
-<h4 className="font-bold text-indigo-900">Dealership Executive Summary</h4>
-</div>
-</div>
-{isGeminiLoading ? (
-<div className="flex items-center gap-2 text-indigo-600 animate-pulse">
-<div className="w-2 h-2 bg-indigo-600 rounded-full animate-bounce"></div>
-<div className="w-2 h-2 bg-indigo-600 rounded-full animate-bounce delay-75"></div>
-<div className="w-2 h-2 bg-indigo-600 rounded-full animate-bounce delay-150"></div>
-<span className="text-sm font-medium">Generating strategic analysis...</span>
-</div>
-) : geminiAnalysis ? (
-<div>
-<div className="prose prose-sm text-indigo-800 ai-content leading-relaxed">
-{geminiAnalysis.split(/\n\n+/).map((paragraph, idx) => {
-if (!paragraph.trim()) return null;
-if (paragraph.includes("<") && paragraph.includes(">")) {
-const boldedParagraph = paragraph.replace("Case Study:", "<strong>Case Study:</strong>");
-return <div key={idx} className="mb-4 last:mb-0" dangerouslySetInnerHTML={{ __html: boldedParagraph }} />;
-}
-const headerMatch = paragraph.match(/^((?:Financial Outlook|Operational Impact|Strategic Value|Case Study):)(.*)/s);
-if (headerMatch) {
-return (
-<p key={idx} className="mb-4 last:mb-0">
-<strong>{headerMatch[1]}</strong>{headerMatch[2]}
-</p>
-);
-}
-return <p key={idx} className="mb-4 last:mb-0">{paragraph}</p>;
-})}
-</div>
-<button onClick={handlePlayAudio} className="mt-4 flex items-center gap-2 text-xs font-bold text-indigo-600 hover:text-indigo-800">
-<Volume2 className="w-4 h-4" /> Listen to Summary
-</button>
-</div>
-) : (
-<p className="text-sm text-indigo-600/70 italic">Initializing analysis...</p>
-)}
-</div>
-<div className="bg-red-50 rounded-xl p-6 border-l-4 border-red-500 shadow-sm">
-<div className="flex items-start gap-4">
-<div className="p-2 bg-red-100 rounded-full shrink-0"><AlertTriangle className="w-6 h-6 text-red-600" /></div>
-<div>
-<h4 className="text-lg font-bold text-red-900 mb-2">Immediate Risk: The 90-Day Cost of Inaction</h4>
-<p className="text-slate-700 leading-relaxed mb-4">Delaying the implementation of UltraCare by just <span className="font-bold text-red-700 underline">3 months</span> could result in a potential loss of <span className="font-bold text-red-700 text-lg">{formatCurrency(costOfWaiting)}</span> in gross profit opportunity.</p>
-<div className="text-xs font-bold text-red-800 uppercase tracking-wide flex items-center gap-1"><ArrowDownRight className="w-4 h-4" /> Potential Revenue Loss</div>
-</div>
-</div>
-</div>
-<div className="space-y-4">
-<h4 className="text-lg font-bold text-slate-900 flex items-center gap-2"><div className="w-2 h-6 bg-indigo-600 rounded-full"></div> The Retention Gap is Widening</h4>
-<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-<div className="bg-slate-50 p-5 rounded-xl border border-slate-200">
-<div className="text-sm font-bold text-slate-500 uppercase mb-2">Early Ownership Loyalty</div>
-<div className="flex items-end gap-2 mb-2"><span className="text-3xl font-black text-slate-800">54%</span><span className="text-sm font-bold text-red-500 mb-1 flex items-center"><ArrowDownRight className="w-4 h-4" /> from 72%</span></div>
-<p className="text-xs text-slate-600 leading-relaxed">This year, only 54% of owners (vehicles &lt;2 years old) returned to their selling dealer for service, a massive drop from 72% in 2023.</p>
-</div>
-<div className="bg-slate-50 p-5 rounded-xl border border-slate-200">
-<div className="text-sm font-bold text-slate-500 uppercase mb-2">The Multiplier Effect</div>
-<div className="flex items-end gap-2 mb-2"><span className="text-3xl font-black text-indigo-600">74%</span><span className="text-sm font-bold text-indigo-600 mb-1">Likelihood</span></div>
-<p className="text-xs text-slate-600 leading-relaxed">According to Cox Automotive, customers who service at the dealership are <span className="font-bold">74% more likely</span> to buy their next vehicle there.</p>
-</div>
-</div>
-</div>
-<div className="bg-indigo-50 rounded-2xl p-6 border border-indigo-100">
-<h4 className="text-lg font-bold text-indigo-900 mb-4">Projected Revenue at Risk (3-Year Horizon)</h4>
-<p className="text-sm text-indigo-700 mb-6 max-w-3xl">
-By failing to implement a subscription program, your dealership risks losing not just the service revenue calculated above, but also the future vehicle sales from the <span className="font-bold">{formatNumber(metrics.totalSubsY3)}</span> customers this program would likely retain.
-</p>
-<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-<div className="bg-white p-5 rounded-xl shadow-sm border border-indigo-100">
-<div className="flex items-center gap-2 mb-1"><Wrench className="w-4 h-4 text-indigo-500" /><span className="text-xs font-bold text-indigo-400 uppercase">Service Revenue At Risk</span></div>
-<div className="text-2xl font-black text-slate-800">{formatCurrency(metrics.y1Profit + metrics.y2Profit + metrics.y3Profit)}</div>
-<p className="text-xs text-slate-500 mt-1">Cumulative Gross Profit Potential from Program</p>
-</div>
-<div className="bg-white p-5 rounded-xl shadow-sm border border-indigo-100">
-<div className="flex items-center gap-2 mb-1"><Car className="w-4 h-4 text-indigo-500" /><span className="text-xs font-bold text-indigo-400 uppercase">Future Sales Revenue At Risk</span></div>
-<div className="text-2xl font-black text-slate-800">{formatCurrency(futureSalesProfit)}</div>
-<p className="text-xs text-slate-500 mt-1">
-Based on retention of {formatNumber(metrics.totalSubsY3)} subs @ 74% conversion
-</p>
-</div>
-</div>
-</div>
-<div className="flex justify-center pt-4">
-{!demoRequested ? (
-<button
-onClick={handleRequestDemo}
-className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white px-8 py-4 rounded-full font-bold shadow-lg hover:shadow-xl transition-all active:scale-95 flex items-center gap-2 text-lg"
->
-Request UltraCare Demo <ArrowUpRight className="w-5 h-5" />
-</button>
-) : (
-<div className="bg-emerald-50 border border-emerald-200 rounded-xl p-6 text-center w-full max-w-md animate-in fade-in zoom-in duration-300">
-<div className="flex justify-center mb-2">
-<div className="bg-emerald-100 p-3 rounded-full">
-<CheckCircle className="w-8 h-8 text-emerald-600" />
-</div>
-</div>
-<h4 className="text-xl font-bold text-emerald-900 mb-1">Request Received!</h4>
-<p className="text-emerald-700 mb-4 text-sm">We will be contacting you shortly to schedule your demo.</p>
-<div className="space-y-3">
-<a href="tel:800-608-2080" className="block w-full bg-white border border-emerald-200 text-emerald-700 font-bold py-2 rounded-lg hover:bg-emerald-50 transition-colors flex items-center justify-center gap-2">
-<Phone className="w-4 h-4" /> Call Us: (800) 608-2080
-</a>
-<a href="https://outlook.office365.com/book/PerformanceLoyaltyGroup@performanceloyalty.com/s/gQeHb3mtqkq5iMnuQfpuRA2?ismsaljsauthenabled=true" target="_blank" rel="noopener noreferrer" className="block w-full bg-emerald-600 text-white font-bold py-2 rounded-lg hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2">
-<Calendar className="w-4 h-4" /> Book Demo Online
-</a>
-</div>
-</div>
-)}
-</div>
-<div className="border-t border-slate-200 pt-6 mt-8 text-center">
-<p className="text-[10px] text-slate-400 leading-relaxed max-w-2xl mx-auto">
-DISCLAIMER: The figures and projections presented in this calculator are estimates based on the user-provided inputs and general industry benchmarks. Actual results may vary significantly based on specific dealership operations, market conditions, and implementation effectiveness. Performance Loyalty Group does not guarantee any specific financial outcomes. The "Cost of Inaction" and "Revenue at Risk" figures are hypothetical projections intended for strategic planning purposes only.
-</p>
-</div>
-</div>
-</div>
-)}
-</div>
-</div>
-</div>
-</div>
-);
+    let combinedReport = introText + "\n\n" + aiResult;
+    if (combinedReport.includes("Strategic Value:")) {
+      combinedReport = combinedReport.replace("Strategic Value:", caseStudyText + "\n\nStrategic Value:");
+    } else {
+      combinedReport = combinedReport + "\n\n" + caseStudyText;
+    }
+    return combinedReport;
+  };
+  const handleLeadSubmit = async data => {
+    setUserData(data);
+    setIsProcessingReport(true);
+    let aiText = "";
+    try {
+      aiText = await getAIAnalysisText();
+      const cleanResult = aiText.replace(/\\(?=\$)/g, "");
+      setGeminiAnalysis(cleanResult);
+      aiText = cleanResult;
+    } catch (err) {
+      console.error("AI Gen failed", err);
+      aiText = "Analysis pending...";
+    }
+    setIsProcessingReport(false);
+    setIsLeadModalOpen(false);
+    setShowReport(true);
+    setTimeout(() => reportRef.current?.scrollIntoView({
+      behavior: 'smooth'
+    }), 100);
+    if (GOOGLE_SCRIPT_URL) {
+      const monthlyProfitY1 = metrics.y1Profit / 12;
+      const costOfWaiting = monthlyProfitY1 * 3;
+      const futureSalesProfit = metrics.totalSubsY3 * 0.74 * AVG_VEHICLE_GROSS_PROFIT;
+      const payload = {
+        ...data,
+        inputs: inputs,
+        metrics: metrics,
+        shareUrl: getShareUrl(),
+        aiSummary: aiText,
+        derived: {
+          costOfWaiting: costOfWaiting,
+          futureSalesProfit: futureSalesProfit,
+          forfeitureIncome: inputs.subPrice * (1 - inputs.utilizationRate / 100) * metrics.totalSubsY3,
+          serviceProfit: inputs.subPrice * (inputs.utilizationRate / 100) * (inputs.grossMargin / 100) * metrics.totalSubsY3,
+          upsellProfit: inputs.visitsPerYear * inputs.upsellPerVisit * (inputs.grossMargin / 100) * metrics.totalSubsY3
+        },
+        timestamp: new Date().toISOString()
+      };
+      fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'text/plain'
+        },
+        body: JSON.stringify(payload)
+      }).catch(err => console.error("Error sending data:", err));
+    }
+  };
+  const handleRequestDemo = () => {
+    if (!userData) return;
+    setDemoRequested(true);
+    if (GOOGLE_SCRIPT_URL) {
+      const payload = {
+        ...userData,
+        action: "request_demo",
+        timestamp: new Date().toISOString()
+      };
+      fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'text/plain'
+        },
+        body: JSON.stringify(payload)
+      }).catch(err => console.error("Error sending demo request:", err));
+    }
+  };
+  const showToast = msg => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(null), 3000);
+  };
+  const formatCurrency = val => new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 0
+  }).format(val);
+  const formatNumber = val => new Intl.NumberFormat('en-US').format(Math.round(val));
+  const monthlyProfitY1 = metrics.y1Profit / 12;
+  const costOfWaiting = monthlyProfitY1 * 3;
+  const futureSalesProfit = metrics.totalSubsY3 * 0.74 * AVG_VEHICLE_GROSS_PROFIT;
+  const handlePlayAudio = () => {
+    if (!geminiAnalysis) return;
+    const textToRead = geminiAnalysis.replace(/<[^>]*>?/gm, '');
+    const utterance = new SpeechSynthesisUtterance(textToRead);
+    window.speechSynthesis.speak(utterance);
+  };
+  const ChartBar = ({
+    label,
+    value,
+    maxValue,
+    colorClass
+  }) => {
+    const percentage = Math.max(5, value / maxValue * 100);
+    return /*#__PURE__*/React.createElement("div", {
+      className: "flex flex-col items-center justify-end h-full w-1/3 group cursor-default relative"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "absolute bottom-full mb-2 text-center opacity-0 group-hover:opacity-100 transition-opacity bg-slate-800 text-white text-xs py-1 px-2 rounded whitespace-nowrap z-10"
+    }, "Gross Profit: ", formatCurrency(value)), /*#__PURE__*/React.createElement("div", {
+      className: `w-full max-w-[60px] rounded-t-lg transition-all duration-500 ease-out relative ${colorClass}`,
+      style: {
+        height: `${percentage}%`
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "absolute top-0 left-0 w-full h-1 bg-white opacity-20 rounded-t-lg"
+    })), /*#__PURE__*/React.createElement("p", {
+      className: "mt-3 font-bold text-slate-700 text-sm sm:text-base"
+    }, label), /*#__PURE__*/React.createElement("p", {
+      className: "text-xs text-slate-500 font-medium"
+    }, formatCurrency(value)));
+  };
+  const maxProfit = metrics.y3Profit * 1.1;
+  return /*#__PURE__*/React.createElement("div", {
+    className: "min-h-screen bg-slate-50 p-4 sm:p-6 font-sans text-slate-800"
+  }, toastMessage && /*#__PURE__*/React.createElement(Toast, {
+    message: toastMessage,
+    onClose: () => setToastMessage(null)
+  }), /*#__PURE__*/React.createElement(LeadCaptureModal, {
+    isOpen: isLeadModalOpen,
+    onClose: () => setIsLeadModalOpen(false),
+    onSubmit: handleLeadSubmit,
+    isProcessing: isProcessingReport
+  }), /*#__PURE__*/React.createElement(EmailModal, {
+    isOpen: isEmailModalOpen,
+    onClose: () => setIsEmailModalOpen(false),
+    url: getShareUrl(),
+    onCopySuccess: () => showToast("Link copied to clipboard!")
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "max-w-7xl mx-auto"
+  }, /*#__PURE__*/React.createElement("header", {
+    className: "flex flex-col sm:flex-row justify-between items-center mb-8 gap-4"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center gap-3"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "bg-blue-600 p-2.5 rounded-xl shadow-lg shadow-blue-600/20"
+  }, /*#__PURE__*/React.createElement(Calculator, {
+    className: "w-6 h-6 text-white"
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", {
+    className: "text-2xl font-bold text-slate-900"
+  }, "UltraCare Subscription Maintenance Profit Calculator"), /*#__PURE__*/React.createElement("p", {
+    className: "text-sm text-slate-500"
+  }, "Projected Dealership ROI & Profitability"))), /*#__PURE__*/React.createElement("button", {
+    onClick: handleEmailClick,
+    className: "flex items-center gap-2 px-5 py-2.5 bg-white border border-blue-200 text-blue-700 shadow-sm shadow-blue-100 hover:shadow-blue-200 hover:border-blue-300 font-semibold rounded-lg transition-all active:scale-95 ring-1 ring-blue-100 hover:ring-blue-300"
+  }, /*#__PURE__*/React.createElement(Mail, {
+    className: "w-4 h-4"
+  }), " Email Scenario")), /*#__PURE__*/React.createElement("div", {
+    className: "grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "lg:col-span-4 space-y-5"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "bg-white rounded-2xl p-5 shadow-sm border border-slate-100"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center gap-2 mb-5 pb-3 border-b border-slate-50"
+  }, /*#__PURE__*/React.createElement(Car, {
+    className: "w-5 h-5 text-blue-500"
+  }), /*#__PURE__*/React.createElement("h2", {
+    className: "font-semibold text-slate-800"
+  }, "Dealership Volume Inputs")), /*#__PURE__*/React.createElement("div", {
+    className: "space-y-5"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flex justify-between mb-2"
+  }, /*#__PURE__*/React.createElement("label", {
+    className: "text-xs font-bold text-slate-400 uppercase tracking-wider"
+  }, "Monthly New & Used Car Sales"), /*#__PURE__*/React.createElement("span", {
+    className: "text-sm font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded"
+  }, inputs.monthlySales)), /*#__PURE__*/React.createElement("input", {
+    type: "range",
+    name: "monthlySales",
+    min: "0",
+    max: "1000",
+    step: "10",
+    value: inputs.monthlySales,
+    onChange: handleChange,
+    className: "w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600"
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flex justify-between mb-2"
+  }, /*#__PURE__*/React.createElement("label", {
+    className: "text-xs font-bold text-slate-400 uppercase tracking-wider"
+  }, "Sales Dept Penetration"), /*#__PURE__*/React.createElement("span", {
+    className: "text-sm font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded"
+  }, inputs.salesPenetration, "%")), /*#__PURE__*/React.createElement("input", {
+    type: "range",
+    name: "salesPenetration",
+    min: "0",
+    max: "100",
+    step: "1",
+    value: inputs.salesPenetration,
+    onChange: handleChange,
+    className: "w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "pt-4 border-t border-slate-50"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex justify-between mb-2"
+  }, /*#__PURE__*/React.createElement("label", {
+    className: "text-xs font-bold text-slate-400 tracking-wider"
+  }, "MONTHLY ROs"), /*#__PURE__*/React.createElement("span", {
+    className: "text-sm font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded"
+  }, inputs.monthlyServiceROs)), /*#__PURE__*/React.createElement("input", {
+    type: "range",
+    name: "monthlyServiceROs",
+    min: "0",
+    max: "5000",
+    step: "50",
+    value: inputs.monthlyServiceROs,
+    onChange: handleChange,
+    className: "w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600"
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flex justify-between mb-2"
+  }, /*#__PURE__*/React.createElement("label", {
+    className: "text-xs font-bold text-slate-400 uppercase tracking-wider"
+  }, "Service Dept Penetration"), /*#__PURE__*/React.createElement("span", {
+    className: "text-sm font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded"
+  }, inputs.servicePenetration, "%")), /*#__PURE__*/React.createElement("input", {
+    type: "range",
+    name: "servicePenetration",
+    min: "0",
+    max: "50",
+    step: "1",
+    value: inputs.servicePenetration,
+    onChange: handleChange,
+    className: "w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600"
+  })))), /*#__PURE__*/React.createElement("div", {
+    className: "bg-white rounded-2xl p-5 shadow-sm border border-slate-100"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center gap-2 mb-5 pb-3 border-b border-slate-50"
+  }, /*#__PURE__*/React.createElement(DollarSign, {
+    className: "w-5 h-5 text-emerald-500"
+  }), /*#__PURE__*/React.createElement("h2", {
+    className: "font-semibold text-slate-800"
+  }, "Program Economics")), /*#__PURE__*/React.createElement("div", {
+    className: "grid grid-cols-2 gap-4 mb-5"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    className: "text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 block"
+  }, "Subscription Price"), /*#__PURE__*/React.createElement("div", {
+    className: "relative"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+  }, "$"), /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    name: "subPrice",
+    value: inputs.subPrice,
+    onChange: handleChange,
+    className: "w-full pl-6 pr-2 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none font-semibold text-slate-700 text-sm"
+  }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    className: "text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 block"
+  }, "Average RO Upsell"), /*#__PURE__*/React.createElement("div", {
+    className: "relative"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+  }, "$"), /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    name: "upsellPerVisit",
+    value: inputs.upsellPerVisit,
+    onChange: handleChange,
+    className: "w-full pl-6 pr-2 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none font-semibold text-slate-700 text-sm"
+  })))), /*#__PURE__*/React.createElement("div", {
+    className: "space-y-5"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flex justify-between mb-2"
+  }, /*#__PURE__*/React.createElement("label", {
+    className: "text-xs font-bold text-slate-400 uppercase tracking-wider"
+  }, "Renewal Rate"), /*#__PURE__*/React.createElement("span", {
+    className: "text-sm font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded"
+  }, inputs.renewalRate, "%")), /*#__PURE__*/React.createElement("input", {
+    type: "range",
+    name: "renewalRate",
+    min: "0",
+    max: "100",
+    step: "1",
+    value: inputs.renewalRate,
+    onChange: handleChange,
+    className: "w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flex justify-between mb-2"
+  }, /*#__PURE__*/React.createElement("label", {
+    className: "text-xs font-bold text-slate-400 uppercase tracking-wider"
+  }, "Utilization Rate"), /*#__PURE__*/React.createElement("span", {
+    className: "text-sm font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded"
+  }, inputs.utilizationRate, "%")), /*#__PURE__*/React.createElement("input", {
+    type: "range",
+    name: "utilizationRate",
+    min: "0",
+    max: "100",
+    step: "1",
+    value: inputs.utilizationRate,
+    onChange: handleChange,
+    className: "w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+  }), /*#__PURE__*/React.createElement("p", {
+    className: "text-[10px] text-slate-400 mt-1"
+  }, "Lower utilization increases forfeiture income.")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flex justify-between mb-2"
+  }, /*#__PURE__*/React.createElement("label", {
+    className: "text-xs font-bold text-slate-400 uppercase tracking-wider"
+  }, "Blended Gross Margin"), /*#__PURE__*/React.createElement("span", {
+    className: "text-sm font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded"
+  }, inputs.grossMargin, "%")), /*#__PURE__*/React.createElement("input", {
+    type: "range",
+    name: "grossMargin",
+    min: "0",
+    max: "100",
+    step: "1",
+    value: inputs.grossMargin,
+    onChange: handleChange,
+    className: "w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+  }), /*#__PURE__*/React.createElement("p", {
+    className: "text-[10px] text-slate-400 mt-1"
+  }, "Used to calculate profit on services."))))), /*#__PURE__*/React.createElement("div", {
+    className: "lg:col-span-8 flex flex-col gap-6"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "bg-slate-900 rounded-2xl p-6 sm:p-8 text-white relative overflow-hidden shadow-xl shadow-slate-200"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "absolute top-0 right-0 w-64 h-64 bg-blue-500 rounded-full filter blur-3xl opacity-10 -mr-16 -mt-16 pointer-events-none"
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "absolute bottom-0 left-0 w-40 h-40 bg-emerald-500 rounded-full filter blur-3xl opacity-10 -ml-10 -mb-10 pointer-events-none"
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "relative z-10"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center gap-2 text-slate-300 mb-2"
+  }, /*#__PURE__*/React.createElement(TrendingUp, {
+    className: "w-5 h-5"
+  }), /*#__PURE__*/React.createElement("span", {
+    className: "font-medium tracking-wide text-sm uppercase"
+  }, "Projected Year 3 Gross Profit")), /*#__PURE__*/React.createElement("div", {
+    className: "text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-2",
+    style: {
+      letterSpacing: '0.05em'
+    }
+  }, formatCurrency(metrics.y3Profit)), /*#__PURE__*/React.createElement("div", {
+    className: "text-slate-400 font-medium text-sm sm:text-base"
+  }, "Total Revenue: ", /*#__PURE__*/React.createElement("span", {
+    className: "text-white font-bold"
+  }, formatCurrency(metrics.y3Rev))))), /*#__PURE__*/React.createElement("div", {
+    className: "bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-100 flex-grow flex flex-col min-h-[320px]"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", {
+    className: "text-lg font-bold text-slate-800"
+  }, "Dealership Profit Trajectory"), /*#__PURE__*/React.createElement("p", {
+    className: "text-slate-500 text-sm"
+  }, "Gross Profit growth over 3 years")), /*#__PURE__*/React.createElement("div", {
+    className: "bg-blue-50 px-4 py-2 rounded-xl border border-blue-100 text-center w-full sm:w-auto"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "text-xs font-bold text-blue-600 uppercase tracking-wider"
+  }, "Active Subscribers Y3"), /*#__PURE__*/React.createElement("div", {
+    className: "text-xl sm:text-2xl font-black text-blue-900"
+  }, formatNumber(metrics.totalSubsY3)))), /*#__PURE__*/React.createElement("div", {
+    className: "flex-grow flex items-end justify-center gap-4 sm:gap-12 pb-4 border-b border-slate-100 h-64"
+  }, /*#__PURE__*/React.createElement(ChartBar, {
+    label: "Year 1",
+    value: metrics.y1Profit,
+    maxValue: maxProfit,
+    colorClass: "bg-blue-300"
+  }), /*#__PURE__*/React.createElement(ChartBar, {
+    label: "Year 2",
+    value: metrics.y2Profit,
+    maxValue: maxProfit,
+    colorClass: "bg-blue-500"
+  }), /*#__PURE__*/React.createElement(ChartBar, {
+    label: "Year 3",
+    value: metrics.y3Profit,
+    maxValue: maxProfit,
+    colorClass: "bg-blue-700"
+  }))), /*#__PURE__*/React.createElement("div", {
+    className: "grid grid-cols-1 sm:grid-cols-3 gap-4"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "bg-white rounded-xl p-4 border border-slate-100 shadow-sm"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center gap-2 mb-2 text-blue-600 font-semibold text-xs uppercase tracking-wide"
+  }, /*#__PURE__*/React.createElement(Wrench, {
+    className: "w-4 h-4"
+  }), " Service Profit"), /*#__PURE__*/React.createElement("div", {
+    className: "text-xl font-bold text-slate-800 mb-1"
+  }, formatCurrency(inputs.subPrice * (inputs.utilizationRate / 100) * (inputs.grossMargin / 100) * metrics.totalSubsY3)), /*#__PURE__*/React.createElement("p", {
+    className: "text-[10px] text-slate-400 leading-tight"
+  }, "Profit from utilized subscription services (Year 3).")), /*#__PURE__*/React.createElement("div", {
+    className: "bg-white rounded-xl p-4 border border-slate-100 shadow-sm"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center gap-2 mb-2 text-orange-500 font-semibold text-xs uppercase tracking-wide"
+  }, /*#__PURE__*/React.createElement(TrendingUp, {
+    className: "w-4 h-4"
+  }), " Upsell Profit"), /*#__PURE__*/React.createElement("div", {
+    className: "text-xl font-bold text-slate-800 mb-1"
+  }, formatCurrency(inputs.visitsPerYear * inputs.upsellPerVisit * (inputs.grossMargin / 100) * metrics.totalSubsY3)), /*#__PURE__*/React.createElement("p", {
+    className: "text-[10px] text-slate-400 leading-tight"
+  }, "Profit from additional RO upsells generated (Year 3).")), /*#__PURE__*/React.createElement("div", {
+    className: "bg-white rounded-xl p-4 border border-slate-100 shadow-sm"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center gap-2 mb-2 text-emerald-600 font-semibold text-xs uppercase tracking-wide"
+  }, /*#__PURE__*/React.createElement(PieChart, {
+    className: "w-4 h-4"
+  }), " Forfeiture Income"), /*#__PURE__*/React.createElement("div", {
+    className: "text-xl font-bold text-slate-800 mb-1"
+  }, formatCurrency(inputs.subPrice * (1 - inputs.utilizationRate / 100) * metrics.totalSubsY3)), /*#__PURE__*/React.createElement("p", {
+    className: "text-[10px] text-slate-400 leading-tight"
+  }, "Pure profit from unredeemed subscription value (Year 3)."))), /*#__PURE__*/React.createElement("div", {
+    className: "pt-6"
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: handleGenerateReportClick,
+    className: "w-full flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-4 rounded-xl font-bold shadow-md hover:shadow-xl transition-all active:scale-98 group"
+  }, /*#__PURE__*/React.createElement(FileText, {
+    className: "w-5 h-5"
+  }), " Generate Strategic Analysis Report")), showReport && /*#__PURE__*/React.createElement("div", {
+    ref: reportRef,
+    className: "mt-8 bg-white rounded-2xl shadow-xl border border-indigo-100 overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "bg-indigo-900 px-6 py-6 text-white border-b border-indigo-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center gap-3"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "p-2 bg-indigo-800 rounded-lg shadow-inner"
+  }, /*#__PURE__*/React.createElement(FileText, {
+    className: "w-6 h-6 text-indigo-200"
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", {
+    className: "text-xl font-bold text-white"
+  }, "Dealership Executive Summary"), /*#__PURE__*/React.createElement("p", {
+    className: "text-xs text-indigo-300 uppercase tracking-wider"
+  }, "Confidential Dealership Assessment"))), /*#__PURE__*/React.createElement("div", {
+    className: "text-right hidden sm:block"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "text-xs text-indigo-300"
+  }, "Generated"), /*#__PURE__*/React.createElement("div", {
+    className: "font-bold"
+  }, new Date().toLocaleDateString()))), /*#__PURE__*/React.createElement("div", {
+    className: "p-6 space-y-8"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "bg-indigo-50 rounded-xl p-6 border border-indigo-100"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex justify-between items-start mb-3"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center gap-2"
+  }, /*#__PURE__*/React.createElement(Sparkles, {
+    className: "w-5 h-5 text-indigo-600"
+  }), /*#__PURE__*/React.createElement("h4", {
+    className: "font-bold text-indigo-900"
+  }, "Dealership Executive Summary"))), isGeminiLoading ? /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center gap-2 text-indigo-600 animate-pulse"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "w-2 h-2 bg-indigo-600 rounded-full animate-bounce"
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "w-2 h-2 bg-indigo-600 rounded-full animate-bounce delay-75"
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "w-2 h-2 bg-indigo-600 rounded-full animate-bounce delay-150"
+  }), /*#__PURE__*/React.createElement("span", {
+    className: "text-sm font-medium"
+  }, "Generating strategic analysis...")) : geminiAnalysis ? /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "prose prose-sm text-indigo-800 ai-content leading-relaxed"
+  }, geminiAnalysis.split(/\n\n+/).map((paragraph, idx) => {
+    if (!paragraph.trim()) return null;
+    if (paragraph.includes("<") && paragraph.includes(">")) {
+      const boldedParagraph = paragraph.replace("Case Study:", "<strong>Case Study:</strong>");
+      return /*#__PURE__*/React.createElement("div", {
+        key: idx,
+        className: "mb-4 last:mb-0",
+        dangerouslySetInnerHTML: {
+          __html: boldedParagraph
+        }
+      });
+    }
+    const headerMatch = paragraph.match(/^((?:Financial Outlook|Operational Impact|Strategic Value|Case Study):)(.*)/s);
+    if (headerMatch) {
+      return /*#__PURE__*/React.createElement("p", {
+        key: idx,
+        className: "mb-4 last:mb-0"
+      }, /*#__PURE__*/React.createElement("strong", null, headerMatch[1]), headerMatch[2]);
+    }
+    return /*#__PURE__*/React.createElement("p", {
+      key: idx,
+      className: "mb-4 last:mb-0"
+    }, paragraph);
+  })), /*#__PURE__*/React.createElement("button", {
+    onClick: handlePlayAudio,
+    className: "mt-4 flex items-center gap-2 text-xs font-bold text-indigo-600 hover:text-indigo-800"
+  }, /*#__PURE__*/React.createElement(Volume2, {
+    className: "w-4 h-4"
+  }), " Listen to Summary")) : /*#__PURE__*/React.createElement("p", {
+    className: "text-sm text-indigo-600/70 italic"
+  }, "Initializing analysis...")), /*#__PURE__*/React.createElement("div", {
+    className: "bg-red-50 rounded-xl p-6 border-l-4 border-red-500 shadow-sm"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-start gap-4"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "p-2 bg-red-100 rounded-full shrink-0"
+  }, /*#__PURE__*/React.createElement(AlertTriangle, {
+    className: "w-6 h-6 text-red-600"
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h4", {
+    className: "text-lg font-bold text-red-900 mb-2"
+  }, "Immediate Risk: The 90-Day Cost of Inaction"), /*#__PURE__*/React.createElement("p", {
+    className: "text-slate-700 leading-relaxed mb-4"
+  }, "Delaying the implementation of UltraCare by just ", /*#__PURE__*/React.createElement("span", {
+    className: "font-bold text-red-700 underline"
+  }, "3 months"), " could result in a potential loss of ", /*#__PURE__*/React.createElement("span", {
+    className: "font-bold text-red-700 text-lg"
+  }, formatCurrency(costOfWaiting)), " in gross profit opportunity."), /*#__PURE__*/React.createElement("div", {
+    className: "text-xs font-bold text-red-800 uppercase tracking-wide flex items-center gap-1"
+  }, /*#__PURE__*/React.createElement(ArrowDownRight, {
+    className: "w-4 h-4"
+  }), " Potential Revenue Loss")))), /*#__PURE__*/React.createElement("div", {
+    className: "space-y-4"
+  }, /*#__PURE__*/React.createElement("h4", {
+    className: "text-lg font-bold text-slate-900 flex items-center gap-2"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "w-2 h-6 bg-indigo-600 rounded-full"
+  }), " The Retention Gap is Widening"), /*#__PURE__*/React.createElement("div", {
+    className: "grid grid-cols-1 md:grid-cols-2 gap-6"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "bg-slate-50 p-5 rounded-xl border border-slate-200"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "text-sm font-bold text-slate-500 uppercase mb-2"
+  }, "Early Ownership Loyalty"), /*#__PURE__*/React.createElement("div", {
+    className: "flex items-end gap-2 mb-2"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "text-3xl font-black text-slate-800"
+  }, "54%"), /*#__PURE__*/React.createElement("span", {
+    className: "text-sm font-bold text-red-500 mb-1 flex items-center"
+  }, /*#__PURE__*/React.createElement(ArrowDownRight, {
+    className: "w-4 h-4"
+  }), " from 72%")), /*#__PURE__*/React.createElement("p", {
+    className: "text-xs text-slate-600 leading-relaxed"
+  }, "This year, only 54% of owners (vehicles <2 years old) returned to their selling dealer for service, a massive drop from 72% in 2023.")), /*#__PURE__*/React.createElement("div", {
+    className: "bg-slate-50 p-5 rounded-xl border border-slate-200"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "text-sm font-bold text-slate-500 uppercase mb-2"
+  }, "The Multiplier Effect"), /*#__PURE__*/React.createElement("div", {
+    className: "flex items-end gap-2 mb-2"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "text-3xl font-black text-indigo-600"
+  }, "74%"), /*#__PURE__*/React.createElement("span", {
+    className: "text-sm font-bold text-indigo-600 mb-1"
+  }, "Likelihood")), /*#__PURE__*/React.createElement("p", {
+    className: "text-xs text-slate-600 leading-relaxed"
+  }, "According to Cox Automotive, customers who service at the dealership are ", /*#__PURE__*/React.createElement("span", {
+    className: "font-bold"
+  }, "74% more likely"), " to buy their next vehicle there.")))), /*#__PURE__*/React.createElement("div", {
+    className: "bg-indigo-50 rounded-2xl p-6 border border-indigo-100"
+  }, /*#__PURE__*/React.createElement("h4", {
+    className: "text-lg font-bold text-indigo-900 mb-4"
+  }, "Projected Revenue at Risk (3-Year Horizon)"), /*#__PURE__*/React.createElement("p", {
+    className: "text-sm text-indigo-700 mb-6 max-w-3xl"
+  }, "By failing to implement a subscription program, your dealership risks losing not just the service revenue calculated above, but also the future vehicle sales from the ", /*#__PURE__*/React.createElement("span", {
+    className: "font-bold"
+  }, formatNumber(metrics.totalSubsY3)), " customers this program would likely retain."), /*#__PURE__*/React.createElement("div", {
+    className: "grid grid-cols-1 sm:grid-cols-2 gap-4"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "bg-white p-5 rounded-xl shadow-sm border border-indigo-100"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center gap-2 mb-1"
+  }, /*#__PURE__*/React.createElement(Wrench, {
+    className: "w-4 h-4 text-indigo-500"
+  }), /*#__PURE__*/React.createElement("span", {
+    className: "text-xs font-bold text-indigo-400 uppercase"
+  }, "Service Revenue At Risk")), /*#__PURE__*/React.createElement("div", {
+    className: "text-2xl font-black text-slate-800"
+  }, formatCurrency(metrics.y1Profit + metrics.y2Profit + metrics.y3Profit)), /*#__PURE__*/React.createElement("p", {
+    className: "text-xs text-slate-500 mt-1"
+  }, "Cumulative Gross Profit Potential from Program")), /*#__PURE__*/React.createElement("div", {
+    className: "bg-white p-5 rounded-xl shadow-sm border border-indigo-100"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center gap-2 mb-1"
+  }, /*#__PURE__*/React.createElement(Car, {
+    className: "w-4 h-4 text-indigo-500"
+  }), /*#__PURE__*/React.createElement("span", {
+    className: "text-xs font-bold text-indigo-400 uppercase"
+  }, "Future Sales Revenue At Risk")), /*#__PURE__*/React.createElement("div", {
+    className: "text-2xl font-black text-slate-800"
+  }, formatCurrency(futureSalesProfit)), /*#__PURE__*/React.createElement("p", {
+    className: "text-xs text-slate-500 mt-1"
+  }, "Based on retention of ", formatNumber(metrics.totalSubsY3), " subs @ 74% conversion")))), /*#__PURE__*/React.createElement("div", {
+    className: "flex justify-center pt-4"
+  }, !demoRequested ? /*#__PURE__*/React.createElement("button", {
+    onClick: handleRequestDemo,
+    className: "bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white px-8 py-4 rounded-full font-bold shadow-lg hover:shadow-xl transition-all active:scale-95 flex items-center gap-2 text-lg"
+  }, "Request UltraCare Demo ", /*#__PURE__*/React.createElement(ArrowUpRight, {
+    className: "w-5 h-5"
+  })) : /*#__PURE__*/React.createElement("div", {
+    className: "bg-emerald-50 border border-emerald-200 rounded-xl p-6 text-center w-full max-w-md animate-in fade-in zoom-in duration-300"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex justify-center mb-2"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "bg-emerald-100 p-3 rounded-full"
+  }, /*#__PURE__*/React.createElement(CheckCircle, {
+    className: "w-8 h-8 text-emerald-600"
+  }))), /*#__PURE__*/React.createElement("h4", {
+    className: "text-xl font-bold text-emerald-900 mb-1"
+  }, "Request Received!"), /*#__PURE__*/React.createElement("p", {
+    className: "text-emerald-700 mb-4 text-sm"
+  }, "We will be contacting you shortly to schedule your demo."), /*#__PURE__*/React.createElement("div", {
+    className: "space-y-3"
+  }, /*#__PURE__*/React.createElement("a", {
+    href: "tel:800-608-2080",
+    className: "block w-full bg-white border border-emerald-200 text-emerald-700 font-bold py-2 rounded-lg hover:bg-emerald-50 transition-colors flex items-center justify-center gap-2"
+  }, /*#__PURE__*/React.createElement(Phone, {
+    className: "w-4 h-4"
+  }), " Call Us: (800) 608-2080"), /*#__PURE__*/React.createElement("a", {
+    href: "https://outlook.office365.com/book/PerformanceLoyaltyGroup@performanceloyalty.com/s/gQeHb3mtqkq5iMnuQfpuRA2?ismsaljsauthenabled=true",
+    target: "_blank",
+    rel: "noopener noreferrer",
+    className: "block w-full bg-emerald-600 text-white font-bold py-2 rounded-lg hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2"
+  }, /*#__PURE__*/React.createElement(Calendar, {
+    className: "w-4 h-4"
+  }), " Book Demo Online")))), /*#__PURE__*/React.createElement("div", {
+    className: "border-t border-slate-200 pt-6 mt-8 text-center"
+  }, /*#__PURE__*/React.createElement("p", {
+    className: "text-[10px] text-slate-400 leading-relaxed max-w-2xl mx-auto"
+  }, "DISCLAIMER: The figures and projections presented in this calculator are estimates based on the user-provided inputs and general industry benchmarks. Actual results may vary significantly based on specific dealership operations, market conditions, and implementation effectiveness. Performance Loyalty Group does not guarantee any specific financial outcomes. The \"Cost of Inaction\" and \"Revenue at Risk\" figures are hypothetical projections intended for strategic planning purposes only."))))))));
 }
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
+root.render(/*#__PURE__*/React.createElement(App, null));
 </script>
 <script>
 function sendHeight() {
-const height = document.body.scrollHeight;
-window.parent.postMessage({ type: 'resize', height: height }, '*');
+  const height = document.body.scrollHeight;
+  window.parent.postMessage({ type: 'resize', height: height }, '*');
 }
 window.addEventListener('load', sendHeight);
 window.addEventListener('resize', sendHeight);
